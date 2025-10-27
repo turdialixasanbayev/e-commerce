@@ -207,5 +207,5 @@ marimo/_lsp/
 __marimo__/
 
 # Django static files
+media/
 staticfiles/
-mediafiles/
