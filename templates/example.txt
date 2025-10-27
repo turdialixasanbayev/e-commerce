@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %} Title Name {% endblock %}
+
+{% block content %}
+
+### Content 
+
+{% endblock %}
