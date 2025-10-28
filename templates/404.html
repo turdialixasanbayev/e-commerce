@@ -1,0 +1,194 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>404 — Page not found</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f1724;
+            --text: #e6eef6;
+            --muted: #9aa4b2;
+            --accent: #7c3aed
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0
+        }
+
+        body {
+            font-family: Inter, system-ui, Segoe UI, Roboto, Arial;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(180deg, #071024 0%, #0f1724 100%);
+            color: var(--text);
+            padding: 24px
+        }
+
+        .card {
+            max-width: 760px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            padding: 28px;
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            box-shadow: 0 8px 30px rgba(2, 6, 23, 0.6)
+        }
+
+        @media (max-width:720px) {
+            .card {
+                flex-direction: column;
+                text-align: center
+            }
+        }
+
+        .left {
+            flex: 1
+        }
+
+        .code {
+            font-size: 64px;
+            font-weight: 700;
+            margin: 0;
+            color: var(--accent)
+        }
+
+        .title {
+            font-size: 20px;
+            margin: 6px 0 8px 0;
+            font-weight: 600
+        }
+
+        .desc {
+            color: var(--muted);
+            margin: 0 0 14px 0
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap
+        }
+
+        .btn {
+            padding: 10px 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            background: transparent;
+            color: inherit
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--accent), #06b6d4);
+            color: #061123;
+            border: none
+        }
+
+        .search {
+            margin-top: 12px;
+            display: flex;
+            gap: 8px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            max-width: 420px
+        }
+
+        .search input {
+            flex: 1;
+            border: 0;
+            background: transparent;
+            color: inherit;
+            padding: 8px;
+            font-size: 14px;
+            outline: none
+        }
+
+        .illustration {
+            width: 160px;
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        svg {
+            width: 120px;
+            height: 120px
+        }
+
+        .muted {
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 10px
+        }
+    </style>
+</head>
+
+<body>
+    <main class="card" role="main">
+        <div class="left">
+            <h1 class="code">404</h1>
+            <h2 class="title">Oops — Page not found</h2>
+            <p class="desc">The page you're looking for doesn't exist or has been moved. Try one of the options below.
+            </p>
+
+            <div class="actions">
+                <a class="btn btn-primary" href="/">Go to Home</a>
+                <a class="btn" href="/contact">Report an issue</a>
+            </div>
+
+            <form class="search" role="search" onsubmit="handleSearch(event)">
+                <label for="q" class="sr-only">Search the site</label>
+                <input id="q" name="q" type="search" placeholder="Search the site" aria-label="Search the site">
+                <button class="btn" type="submit">Search</button>
+            </form>
+
+            <p class="muted">Tip: check the URL for typos or try the homepage.</p>
+        </div>
+
+        <aside class="illustration" aria-hidden="true">
+            <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sad map icon">
+                <defs>
+                    <linearGradient id="g" x1="0" x2="1">
+                        <stop offset="0" stop-color="#7c3aed" />
+                        <stop offset="1" stop-color="#06b6d4" />
+                    </linearGradient>
+                </defs>
+                <rect x="6" y="14" width="108" height="80" rx="8" fill="url(#g)" opacity="0.12" />
+                <g transform="translate(18,22)">
+                    <path d="M6 6 L54 6 L66 30 L42 48 L18 30 Z" fill="#0b1220" stroke="rgba(255,255,255,0.06)" />
+                    <circle cx="36" cy="24" r="6" fill="#7c3aed" />
+                    <text x="0" y="88" font-size="10" fill="rgba(255,255,255,0.7)">We couldn't find that page</text>
+                </g>
+            </svg>
+        </aside>
+    </main>
+
+    <script>
+        function handleSearch(e) {
+            e.preventDefault();
+            const q = document.getElementById('q').value.trim();
+            if (!q) { document.getElementById('q').focus(); return }
+            window.location.href = '/search?q=' + encodeURIComponent(q);
+        }
+    </script>
+</body>
+
+</html>

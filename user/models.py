@@ -43,4 +43,4 @@ class CustomUser(AbstractUser):
         ]
 
     def __str__(self):
-        return f"{self.phone_number}"
+        return f"{self.pk} {self.phone_number}"

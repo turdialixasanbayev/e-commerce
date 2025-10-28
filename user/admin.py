@@ -15,7 +15,7 @@ from django.contrib.auth.models import Group
 
 class CustomUserAdmin(UserAdmin):
     """
-    User Admin Interface
+    CustomUser Admin Interface
     """
 
     model = CustomUser
@@ -94,4 +94,6 @@ class CustomUserAdmin(UserAdmin):
     )
 
 # admin.site.unregister(Group) # Unregister the Group model if not needed
+
+
 admin.site.register(CustomUser, CustomUserAdmin)
