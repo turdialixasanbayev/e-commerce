@@ -18,7 +18,7 @@ ALLOWED_HOSTS = [
     '*',
 ]
 
-AUTH_USER_MODEL = "auth.User"
+AUTH_USER_MODEL = "user.CustomUser"
 
 """
 
@@ -27,9 +27,11 @@ LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 """
 
+PHONENUMBER_DEFAULT_REGION = 'UZ'
+
 # Application definition
 
-INSTALLED_APPS = [
+DEFAULT_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -37,6 +39,20 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+
+LIBS_APPS = [
+    'phonenumber_field',
+]
+
+
+LOCAL_APPS = [
+    'user',
+]
+
+INSTALLED_APPS = DEFAULT_APPS + LIBS_APPS + LOCAL_APPS
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -135,3 +151,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',          # default
+    'accounts.backends.PhoneNumberBackend',               # 👈 custom backend
+]
+

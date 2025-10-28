@@ -8,7 +8,7 @@ from django.views.static import serve
 from .view import home_view, contact_view
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('ogani/', admin.site.urls),
 
     path('', home_view, name='home'),
     path('contact/', contact_view, name='contact'),
@@ -16,6 +16,7 @@ urlpatterns = [
     # local path
     ### for example
     # path('', include('app.urls')),
+    path('', include('user.urls')),
 
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
     re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
