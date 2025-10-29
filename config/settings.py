@@ -20,12 +20,11 @@ ALLOWED_HOSTS = [
 
 AUTH_USER_MODEL = "user.CustomUser"
 
-"""
 
-LOGIN_URL = 'sign_in'
+LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
-"""
+
 
 PHONENUMBER_DEFAULT_REGION = 'UZ'
 
@@ -116,20 +115,20 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
-# AUTH_PASSWORD_VALIDATORS = [
-#     {
-#         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-#     },
-#     {
-#         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-#     },
-#     {
-#         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-#     },
-#     {
-#         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-#     },
-# ]
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
 
 
 # Internationalization
@@ -169,3 +168,8 @@ AUTHENTICATION_BACKENDS = [
     'user.backends.PhoneNumberBackend',               # 👈 custom backend
 ]
 
+
+# Django session config
+
+SESSION_COOKIE_AGE = 604800  # 1 week (7 days) django default
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False # django default
