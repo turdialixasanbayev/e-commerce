@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-la&k8bm_auj^kr92$nn42-b4w*h7ffur44x!zh%i^5tq+77nih'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     '*',
@@ -43,6 +43,7 @@ DEFAULT_APPS = [
 
 LIBS_APPS = [
     'phonenumber_field',
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 
@@ -100,7 +101,16 @@ DATABASES = {
 
 ### psql
 
-
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'ogani',
+#         'USER': 'ogani',
+#         'PASSWORD': 'ogani',
+#         'HOST': '127.0.0.1',
+#         'PORT': '5432',
+#     }
+# }
 
 
 # Password validation
