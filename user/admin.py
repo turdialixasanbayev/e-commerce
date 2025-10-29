@@ -39,7 +39,7 @@ class CustomUserAdmin(UserAdmin):
     )
     list_display_links = (
         'id',
-        # 'phone_number',
+        'phone_number',
     )
     readonly_fields = (
         'id',
