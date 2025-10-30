@@ -4,6 +4,7 @@ from django.contrib.auth import login, authenticate, logout
 from .models import CustomUser
 import re
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
 
 
 def register_view(request):
@@ -46,7 +47,7 @@ def register_view(request):
             request.session.set_expiry(0)
 
         messages.success(request, "🎉 Account created successfully! You are now logged in 🙌")
-        return redirect('home')
+        return redirect('profile')
 
     return render(request, 'register.html')
 
@@ -69,7 +70,7 @@ def login_view(request):
                 request.session.set_expiry(0)
 
             messages.success(request, 'You are logged in successfully ✅')
-            return redirect('home')
+            return redirect('profile')
         else:
             messages.error(request, 'Incorrect phone number or password ❌')
             return redirect('login')
@@ -81,3 +82,50 @@ def logout_view(request):
     logout(request)
     messages.success(request, 'You are logged out successfully ✅')
     return redirect('home')
+
+@login_required
+def profile_view(request):
+    return render(request, 'profile.html', {'user': request.user})
+
+@login_required
+def delete_account(request):
+    user = request.user
+    user.delete()
+    messages.success(request, "🗑️ Account successfully deleted 👋")
+    return redirect('home')
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        current_password = request.POST.get('current_password')
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+
+        if not current_password or not new_password or not confirm_password:
+            messages.error(request, "⚠️ Please fill in all fields!")
+            return redirect('change_password')
+
+        if not request.user.check_password(current_password):
+            messages.error(request, "❌ Current password is incorrect!")
+            return redirect('change_password')
+
+        if len(new_password) < 8:
+            messages.error(request, "🔒 Password must be at least 8 characters long!")
+            return redirect('change_password')
+
+        if new_password != confirm_password:
+            messages.error(request, "❌ Passwords do not match!")
+            return redirect('change_password')
+
+        if current_password == new_password:
+            messages.error(request, "⚠️ New password cannot be the same as current password!")
+            return redirect('change_password')
+
+        user = request.user
+        user.set_password(new_password)
+        user.save()
+        update_session_auth_hash(request, user)
+        messages.success(request, "✅ Password successfully changed and you're still logged in!")
+        return redirect('profile')
+
+    return render(request, 'change_password.html')
