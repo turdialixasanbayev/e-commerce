@@ -173,3 +173,8 @@ AUTHENTICATION_BACKENDS = [
 
 SESSION_COOKIE_AGE = 604800  # 1 week (7 days) django default
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False # django default
+
+# hashid config
+
+HASHIDS_SALT = "e-commerce-super-secret-salt"
+HASHIDS_MIN_LENGTH = 64

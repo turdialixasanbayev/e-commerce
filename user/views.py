@@ -1,15 +1,17 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from .models import CustomUser
 import re
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
+from .hashid import decode_id, encode_id
 
 
 def register_view(request):
     if request.user.is_authenticated:
-        return redirect('profile')
+        hashid = encode_id(request.user.id)
+        return redirect('profile', hashid=hashid)
 
     if request.method == "POST":
         data = request.POST
@@ -50,13 +52,15 @@ def register_view(request):
             request.session.set_expiry(0)
 
         messages.success(request, "🎉 Account created successfully! You are now logged in 🙌")
-        return redirect('profile')
+        hashid = encode_id(user.id)
+        return redirect('profile', hashid=hashid)
 
     return render(request, 'register.html')
 
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect('profile')
+        hashid = encode_id(request.user.id)
+        return redirect('profile', hashid)
 
     if request.method == "POST":
         data = request.POST
@@ -76,7 +80,8 @@ def login_view(request):
                 request.session.set_expiry(0)
 
             messages.success(request, 'You are logged in successfully ✅')
-            return redirect('profile')
+            hashid = encode_id(user.id)
+            return redirect('profile', hashid=hashid)
         else:
             messages.error(request, 'Incorrect phone number or password ❌')
             return redirect('login')
@@ -90,8 +95,22 @@ def logout_view(request):
     return redirect('home')
 
 @login_required
-def profile_view(request):
-    return render(request, 'profile.html', {'user': request.user})
+def profile_view(request, hashid):
+    id = decode_id(hashid)
+
+    if not id:
+        messages.error(request, "❌ Invalid profile link!")
+        return render(request, '404.html', status=404)
+
+    user = get_object_or_404(CustomUser, pk=id)
+
+    if request.user != user:
+        messages.error(request, "❌ You do not have permission to view this profile!")
+        return redirect('login')
+
+    context = {'user': user}
+
+    return render(request, 'profile.html', context)
 
 @login_required
 def delete_account(request):
@@ -132,6 +151,7 @@ def change_password(request):
         user.save()
         update_session_auth_hash(request, user)
         messages.success(request, "✅ Password successfully changed and you're still logged in!")
-        return redirect('profile')
+        hashid = encode_id(user.id)
+        return redirect('profile', hashid)
 
     return render(request, 'change_password.html')
