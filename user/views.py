@@ -8,6 +8,9 @@ from django.contrib.auth import update_session_auth_hash
 
 
 def register_view(request):
+    if request.user.is_authenticated:
+        return redirect('profile')
+
     if request.method == "POST":
         data = request.POST
 
@@ -52,6 +55,9 @@ def register_view(request):
     return render(request, 'register.html')
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('profile')
+
     if request.method == "POST":
         data = request.POST
 
