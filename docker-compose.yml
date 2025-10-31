@@ -1,0 +1,40 @@
+services:
+  db:
+    container_name: ogani_db_container
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ogani
+      POSTGRES_USER: ogani
+      POSTGRES_PASSWORD: ogani
+    ports:
+      - "5433:5432"
+    volumes:
+      - ogani_postgres_data:/var/lib/postgresql/data
+  web:
+    build: .
+    image: ogani_web_image
+    container_name: ogani_web_container
+    ports:
+      - "7171:7171"
+    depends_on:
+      - db
+    restart: unless-stopped
+    environment:
+      - DEBUG=True
+      - DJANGO_ALLOWED_HOSTS=*
+      - DJANGO_SUPERUSER_PHONE_NUMBER=+998939195081
+      - DJANGO_SUPERUSER_PASSWORD=123456789
+      - DATABASE_NAME=ogani
+      - DATABASE_USER=ogani
+      - DATABASE_PASSWORD=ogani
+      - DATABASE_HOST=db
+    command: >
+      sh -c "python manage.py makemigrations &&
+             python manage.py migrate &&
+             python manage.py collectstatic --noinput &&
+             python manage.py createsuperuser --noinput || true &&
+             python manage.py runserver 0.0.0.0:7171"
+
+volumes:
+  ogani_postgres_data:
