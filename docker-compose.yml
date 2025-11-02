@@ -1,0 +1,17 @@
+services:
+  web:
+    build: .
+    image: ogani_web_image
+    container_name: ogani_web_container
+    ports:
+      - "2131:2131"
+    restart: unless-stopped
+    environment:
+      - DJANGO_SUPERUSER_PHONE_NUMBER=+998918011520
+      - DJANGO_SUPERUSER_PASSWORD=123456789
+    command: >
+      sh -c "python manage.py makemigrations &&
+             python manage.py migrate &&
+             python manage.py collectstatic --noinput &&
+             python manage.py createsuperuser --noinput || true &&
+             python manage.py runserver 0.0.0.0:2131"
