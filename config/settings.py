@@ -45,11 +45,14 @@ DEFAULT_APPS = [
 LIBS_APPS = [
     'phonenumber_field',
     'django_cleanup.apps.CleanupConfig',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 
 LOCAL_APPS = [
     'user',
+    'contact_us',
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + LIBS_APPS + LOCAL_APPS
@@ -180,3 +183,60 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = env.bool('SESSION_EXPIRE_AT_BROWSER_CLOSE')
 
 HASHIDS_SALT = env('HASHIDS_SALT')
 HASHIDS_MIN_LENGTH = env('HASHIDS_MIN_LENGTH')
+
+# CKEditor config
+
+CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'skin': 'moono',
+        'toolbar': 'CustomToolbar',
+        'tabSpaces': 4,
+        'height': 400,
+        'width': '100%',
+        'extraPlugins': ','.join([
+            'uploadimage',
+            'div',
+            'autolink',
+            'autoembed',
+            'embedsemantic',
+            'autogrow',
+            'widget',
+            'lineutils',
+            'clipboard',
+            'dialog',
+            'dialogui',
+            'elementspath'
+        ]),
+        'toolbar_CustomToolbar': [
+            {'name': 'document', 'items': [
+                'Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates']},
+            {'name': 'clipboard', 'items': [
+                'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
+            {'name': 'editing', 'items': [
+                'Find', 'Replace', '-', 'SelectAll', 'Scayt']},
+            {'name': 'forms', 'items': [
+                'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField']},
+            '/',
+            {'name': 'basicstyles', 'items': [
+                'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
+            {'name': 'paragraph', 'items': [
+                'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-',
+                'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language']},
+            {'name': 'links', 'items': ['Link', 'Unlink', 'Anchor']},
+            {'name': 'insert', 'items': [
+                'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe']},
+            '/',
+            {'name': 'styles', 'items': [
+                'Styles', 'Format', 'Font', 'FontSize']},
+            {'name': 'colors', 'items': [
+                'TextColor', 'BGColor']},
+            {'name': 'tools', 'items': [
+                'Maximize', 'ShowBlocks']},
+            {'name': 'about', 'items': ['About']},
+        ],
+    }
+}
