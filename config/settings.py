@@ -53,6 +53,7 @@ LIBS_APPS = [
 LOCAL_APPS = [
     'user',
     'contact_us',
+    'category',
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + LIBS_APPS + LOCAL_APPS

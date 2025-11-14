@@ -10,10 +10,11 @@ class ContactView(View):
     def get(self, request):
         context = {'text': "Welcome to Contact View!"}
         return render(request=request, template_name=self.template_name, context=context)
-    
+
     def post(self, request):
         url = request.META.get("HTTP_REFERER")
         data = request.POST
+
         name = data.get("name")
         email = data.get('email')
         message = data.get('message')
