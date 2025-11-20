@@ -19,7 +19,10 @@ urlpatterns = [
     # local path
     ### for example
     # path('', include('app.urls')),
+    path('', include('common.urls')),
     path('', include('user.urls')),
+    path('', include('product.urls')),
+    path('', include('article.urls')),
     path('', include('contact_us.urls')),
     path('', include('category.urls')),
 
