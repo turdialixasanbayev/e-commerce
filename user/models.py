@@ -6,6 +6,8 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 from .managers import CustomUserManager
 
+from .hashid import encode_id
+
 
 class CustomUser(AbstractUser):
     """
@@ -41,6 +43,10 @@ class CustomUser(AbstractUser):
         indexes = [
             models.Index(fields=["phone_number"]),
         ]
+
+    @property
+    def get_hashid(self):
+        return encode_id(self.pk)
 
     def __str__(self):
         return f"{self.pk} {self.phone_number}"

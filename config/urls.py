@@ -7,7 +7,7 @@ from django.conf.urls import handler404
 from .errors import handler404 as custom_404_handler
 
 
-from .view import home_view, contact_view
+from .view import home_view
 
 urlpatterns = [
     path('ogani/', admin.site.urls),
@@ -15,7 +15,6 @@ urlpatterns = [
     path('ckeditor/', include('ckeditor_uploader.urls')),
 
     path('', home_view, name='home'),
-    path('contact/', contact_view, name='contact'),
 
     # local path
     ### for example

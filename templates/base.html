@@ -120,9 +120,21 @@
                                     <li><a href="#">English</a></li>
                                 </ul>
                             </div>
+                            {% if user.is_authenticated %}
                             <div class="header__top__right__auth">
-                                <a href="#"><i class="fa fa-user"></i> Login</a>
+                                <a href="{% url 'logout' %}"><i class="fa fa-user"></i> Logout</a>
                             </div>
+                            <div class="header__top__right__auth">
+                                <a href="{% url 'profile' user.get_hashid %}"><i class="fa fa-user"></i> Profile page</a>
+                            </div>
+                            {% else %}
+                            <div class="header__top__right__auth">
+                                <a href="{% url 'login' %}"><i class="fa fa-user"></i> Login</a>
+                            </div>
+                            <div class="header__top__right__auth">
+                                <a href="{% url 'register' %}"><i class="fa fa-user"></i> Register</a>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
