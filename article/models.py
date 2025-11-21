@@ -37,7 +37,7 @@ class Article(models.Model):
     category = models.ForeignKey(
         to=Category,
         on_delete=models.CASCADE,
-        limit_choices_to={'category_type': Category.CategoryType.PRODUCT},
+        limit_choices_to={'category_type': Category.CategoryType.ARTICLE},
         db_index=True,
         help_text="The category to which this article belongs.",
         related_name='articles',
